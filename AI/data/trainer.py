@@ -1,6 +1,7 @@
 from transformers import AutoModelForCausalLM, AutoTokenizer, Trainer, TrainingArguments
 from datasets import load_dataset
 from peft import LoraConfig, get_peft_model
+from transformers import DataCollatorForLanguageModeling
 
 model_name = "openai/zephyr-7b"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
@@ -15,6 +16,13 @@ def tokenize(example):
     return tokens
 
 tokenized_dataset = dataset.map(tokenize, batched=False)
+
+data_collator = DataCollatorForLanguageModeling(
+    tokenizer=tokenizer,
+    mlm=False,
+    pad_to_multiple_of=8
+)
+
 
 lora_config = LoraConfig(
     r=8,
@@ -38,6 +46,7 @@ trainer = Trainer(
     model=model,
     args=training_args,
     train_dataset=tokenized_dataset["train"],
+    data_collator=data_collator,
 )
 
 trainer.train()
