@@ -2,15 +2,20 @@ from transformers import AutoModelForCausalLM, AutoTokenizer, Trainer, TrainingA
 from datasets import load_dataset
 from peft import LoraConfig, get_peft_model
 
-# Load dataset
-dataset = load_dataset("json", data_files="tables/classification_dataset.jsonl")
-
-# Load Zephyr
 model_name = "openai/zephyr-7b"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForCausalLM.from_pretrained(model_name)
 
-# Apply LoRA
+dataset = load_dataset("json", data_files="tables/classification_dataset.jsonl")
+
+def tokenize(example):
+    text = example["input"] + " " + example["output"]
+    tokens = tokenizer(text, truncation=True, max_length=512)
+    tokens["labels"] = tokens["input_ids"].copy()
+    return tokens
+
+tokenized_dataset = dataset.map(tokenize, batched=False)
+
 lora_config = LoraConfig(
     r=8,
     lora_alpha=32,
@@ -20,19 +25,19 @@ lora_config = LoraConfig(
 )
 model = get_peft_model(model, lora_config)
 
-# Training arguments
 training_args = TrainingArguments(
     output_dir="./zephyr-classifier",
     per_device_train_batch_size=2,
     gradient_accumulation_steps=16,
     learning_rate=2e-4,
     num_train_epochs=3,
-    fp16=True
+    fp16=True,
 )
 
 trainer = Trainer(
     model=model,
     args=training_args,
-    train_dataset=dataset["train"],
+    train_dataset=tokenized_dataset["train"],
 )
+
 trainer.train()
