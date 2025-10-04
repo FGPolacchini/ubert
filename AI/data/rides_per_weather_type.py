@@ -1,7 +1,7 @@
 import pandas as pd
 
-rides_df = pd.read_excel("rides.xlsx")
-weather_df = pd.read_excel("weather.xlsx")
+rides_df = pd.read_excel("tables/rides.xlsx")
+weather_df = pd.read_excel("tables/weather.xlsx")
 
 rides_df['start_time'] = pd.to_datetime(rides_df['start_time'])
 rides_df['date'] = rides_df['start_time'].dt.date
@@ -21,4 +21,4 @@ avg_trips_per_weather = (
     .reset_index(name='avg_trips_per_day')
 )
 
-print(avg_trips_per_weather)
+avg_trips_per_weather.to_csv("tables/avg_trips_per_weather.csv", index=False)

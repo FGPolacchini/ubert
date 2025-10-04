@@ -1,7 +1,7 @@
 import pandas as pd
 import itertools
 
-df = pd.read_excel("rides.xlsx")
+df = pd.read_excel("tables/rides.xlsx")
 
 df['start_time'] = pd.to_datetime(df['start_time'])
 
@@ -22,4 +22,4 @@ trip_counts_week_full = pd.merge(full_index, trip_counts_week,
 
 trip_counts_week_full['trip_count'] = trip_counts_week_full['trip_count'].astype(int)
 
-trip_counts_week_full.to_csv("trip_counts_per_week_full.csv", index=False)
+trip_counts_week_full.to_csv("tables/trip_counts_per_day_of_the_week.csv", index=False)
