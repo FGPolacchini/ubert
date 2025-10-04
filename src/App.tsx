@@ -1,7 +1,11 @@
 import { ThemeProvider } from "@/components/theme-provider";
 import { Card, CardDescription, CardHeader } from "./components/ui/card";
+import { useState } from "react";
+import type { SessionState } from "./utils/sessionManagement";
 
 function App() {
+	const [sessionData, useSessionData] = useState<SessionState>();'-'
+
 	return (
 		<ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
 			<Card>
