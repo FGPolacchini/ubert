@@ -1,0 +1,23 @@
+{
+	"name": "ubert",
+	"version": "1.0.0",
+	"description": "JunctionX Delft 2025",
+	"main": "index.js",
+	"scripts": {
+		"di": "npm --prefix server install && npm --prefix client install",
+		"client": "npm --prefix client run dev",
+		"server": "npm --prefix server run dev"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/FGPolacchini/ubert.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"type": "commonjs",
+	"bugs": {
+		"url": "https://github.com/FGPolacchini/ubert/issues"
+	},
+	"homepage": "https://github.com/FGPolacchini/ubert#readme"
+}
