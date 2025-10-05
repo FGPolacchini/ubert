@@ -27,7 +27,7 @@ model = PeftModel.from_pretrained(base_model, lora_model_path, device_map="auto"
 model.eval()
 
 # oddly specific question that matches the one from the responses.json to check if it actually learnt something
-prompt = "Which areas consistently perform above the dataset mean of $3.46?"
+prompt = "I've been driving 6 hours, fatigue high, next hour peak orders, what should I do?"
 
 inputs = tokenizer(prompt, return_tensors="pt").to("cuda")
 
