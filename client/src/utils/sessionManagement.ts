@@ -33,7 +33,7 @@ export function goOnline(sessionData: SessionState): SessionState {
 	//if break, update session time
 	//if not break, new state
 	const currentTime = new Date();
-	var isBreak = checkIfBreak(sessionData.lastSeenOn, currentTime);
+	const isBreak = checkIfBreak(sessionData.lastSeenOn, currentTime);
 	if (isBreak) {
 		sessionData.lastBreak = currentTime;
 		return sessionData;
@@ -78,7 +78,7 @@ export function updateSessionState(currState: SessionState, trip: Trip): Session
  * @param currDate the date came online again
  * @returns true if driver was on a break, false if it was a full shift change
  */
-export function checkIfBreak(lastDate: Date, currDate: Date): Boolean {
+export function checkIfBreak(lastDate: Date, currDate: Date): boolean {
 	if (lastDate.getFullYear() === currDate.getFullYear() &&
 		lastDate.getMonth() === currDate.getMonth() &&
 		lastDate.getDay() === currDate.getDay()) {

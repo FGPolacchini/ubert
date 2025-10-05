@@ -10,31 +10,35 @@ import {
 	DrawerTitle,
 	DrawerTrigger,
 } from "@/components/ui/drawer";
-import { ChevronUp } from "lucide-react";
+import { ChevronUp, Power } from "lucide-react";
+import TimedNudge from "./breakNudge";
 
 function Phone() {
-	const [isOnline, useIsOnline] = useState(false);
-	const [isNudgeVisible, useIsNudgeVisible] = useState(false);
+	const [isOnline, setIsOnline] = useState(false);
 
 	return (
 		<Card className="max-h-3xl h-full max-w-xl w-full">
 			<CardContent className="px-2.5 pt-4 pb-8 h-full">
 				<div className="flex flex-col h-full relative overflow-hidden rounded-md">
-					
-					<div
-						className={
-							"bg-red-500 max-h-20 grow-2 h-full" +
-							(isNudgeVisible ? " flex" : " hidden")
-						}
-					></div>
-
-					<div className="bg-green-500 h-full">
-						<Button
-							onClick={() => {
-								useIsNudgeVisible(!isOnline);
-								useIsOnline(!isOnline);
-							}}
+					{isOnline && (
+						<TimedNudge // params are in seconds
+							durationInit={4}
+							durationLong={4}
+							durationShort={2}
+							maxTimeElapsed={10}
+							setOnline={setIsOnline}
 						/>
+					)}
+
+					<div className="h-full">
+						<Button
+							variant="outline"
+							size="icon"
+							className="rounded-full"
+							onClick={() => setIsOnline(!isOnline)}
+						>
+							<Power className="w-4 h-4" />
+						</Button>
 					</div>
 
 					<Drawer>
@@ -56,7 +60,7 @@ function Phone() {
 							<DrawerHeader>
 								<DrawerTitle>Insights</DrawerTitle>
 								<DrawerDescription>
-									This information was last updated on 
+									This information was last updated on
 									{/* {#*#} */}
 								</DrawerDescription>
 							</DrawerHeader>
