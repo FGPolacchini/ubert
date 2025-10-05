@@ -2,6 +2,12 @@ import type { FinishedOrder, Order } from "@/components/order-popup";
 import type { Trip } from "./sessionManagement";
 import type { Output } from "@/components/insight-showcase";
 
+interface detailTrip {
+    trip: Trip,
+    area: string,
+    money: string,
+}
+
 const trips: Trip[] = [
     {
         tripId: "1",
@@ -122,26 +128,69 @@ const orderTrip: FinishedOrder[] = [
 const exampleOutputs: Output[] = [
     // logging in / refreshing at 7 am on a rainy Monday day
     {
-        customer_demand: "On Mondays most customer demand will be between 7:30 am and 9 am.";
-	    weather: "It will rain the entire day today, with a thunderstorm at 2 pm.";
-	    traffic: "Expect a traffic jam near Rotterdam Centrum between 9 am and 11:30 am.";
-	    incentives: "This week you will get 10% extra earnings driving in Rotterdam Feijenoord!";
-    }
+        customer_demand: "On Mondays most customer demand will be between 7:30 am and 9 am.",
+	    weather: "It will rain the entire day today, with a thunderstorm at 2 pm.",
+	    traffic: "Expect a traffic jam near Rotterdam Centrum between 9 am and 11:30 am.",
+	    incentives: "This week you will get 10% extra earnings driving in Rotterdam Feijenoord!",
+    },
     // REFRESHING at 9 am on a rainy Monday day (same as the one above)
     {
-        customer_demand: "The customer demand will decrease after 9:30 am.";
-	    weather: "It will rain the entire day today, but the thunderstorm will only be at 5 pm.";
-	    traffic: "Expect some light traffic from now until 11:30 am near Rotterdam Centrum.";
-	    incentives: "This week you will get 10% extra earnings driving in Rotterdam Feijenoord!";
-    }
+        customer_demand: "The customer demand will decrease after 9:30 am.",
+	    weather: "It will rain the entire day today, but the thunderstorm will only be at 5 pm.",
+	    traffic: "Expect some light traffic from now until 11:30 am near Rotterdam Centrum.",
+	    incentives: "This week you will get 10% extra earnings driving in Rotterdam Feijenoord!",
+    },
     // logging in / refreshing at 6 pm on a cloudy Friday day
     {
-        customer_demand: "On Fridays expect more tips from 9 pm to 10:30 pm.";
-	    weather: "There should be no rain, just a bit of cloudiness and gusts of wind around 8 pm.";
-	    traffic: "Traffic in your area should get lighter after 7 pm";
-	    incentives: "This weekend you will get 15% extra earnings driving in Rotterdam Zuid!";
+        customer_demand: "On Fridays expect more tips from 9 pm to 10:30 pm.",
+	    weather: "There should be no rain, just a bit of cloudiness and gusts of wind around 8 pm.",
+	    traffic: "Traffic in your area should get lighter after 7 pm",
+	    incentives: "This weekend you will get 15% extra earnings driving in Rotterdam Zuid!",
+    }
+];
+
+const detailsPerTrip: detailTrip[] = [
+    {
+        trip: {
+            tripId: "1",
+            driverId: "ah26",
+            customerId: "bh23",
+            dist: 20.5,
+            duration: 15,
+            net_earnings: 20,
+            tips: 2.5
+        },
+        area: "Area has low user activity, not recommended to accept.",
+        money: "Low user demand, more costly because of high chance of a wasted trip back.",
+
+    },
+    {
+        trip: {
+            tripId: "2",
+            driverId: "bg14",
+            customerId: "kl53",
+            dist: 11.3,
+            duration: 8,
+            net_earnings: 9.15,
+            tips: 0
+        },
+        area: "Area has medium user activity, accepting is up to you.",
+        money: "Medium user demand, equally probable that you will or won't waste a trip back.",
+    },
+    {
+        trip: {
+            tripId: "3",
+            driverId: "le40",
+            customerId: "vm91",
+            dist: 6.2,
+            duration: 9,
+            net_earnings: 6.32,
+            tips: 12
+        },
+        area: "Area has high user activity, accepting is highly recommended.",
+        money: "High user demand, there is a high chance that you will get another trip from there.",
     }
 ]
 
 
-export {trips, requests, orderTrip, exampleOutputs};
+export {trips, requests, orderTrip, exampleOutputs, detailsPerTrip};
