@@ -21,15 +21,6 @@ export interface Trip {
 	tips: number;
 }
 
-export interface Request {
-	pickupLat: number,
-	pickupLon: number,
-	dropOffLat: number,
-	dropOffLon: number,
-	fareEst: number,
-	customerId: string
-}
-
 /**
  * Get default clear state for new shift
  * @returns New shift state object
