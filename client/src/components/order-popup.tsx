@@ -7,6 +7,7 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/dialog";
+import { Button } from "./ui/button";
 
 export interface Order {
 	customerId: string;
@@ -34,6 +35,7 @@ function OrderDialog() {
 						account and remove your data from our servers.
 					</DialogDescription>
 				</DialogHeader>
+				<Button className="w-full">Accept</Button>
 			</DialogContent>
 		</Dialog>
 	);

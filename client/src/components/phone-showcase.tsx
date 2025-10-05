@@ -26,6 +26,7 @@ import {
 } from "@/utils/sessionManagement";
 import uberMapPic from "@/assets/uberMapPic.png";
 import InsightsDataShowcase, { type Insights } from "./insight-showcase";
+import { getExampleInsights } from "@/utils/examples";
 
 function Phone({
 	sessionData,
@@ -35,6 +36,9 @@ function Phone({
 	latestInsights: Insights | null;
 }) {
 	const [isOnline, setIsOnline] = useState(false);
+	const [currOrder, setCurrOrder] = useState(-1);
+
+	const exampleOutputs = getExampleInsights();
 
 	return (
 		<Card className="max-h-3xl h-full max-w-xl w-full">
@@ -87,6 +91,7 @@ function Phone({
 											variant="secondary"
 											size="icon"
 											className="rounded-full absolute top-2 right-2"
+											onClick={() => { setCurrOrder((prev) => (prev + 1) % 3)}}
 										>
 											<PlusCircle className="w-4 h-4" />
 										</Button>
@@ -96,12 +101,14 @@ function Phone({
 						</div>
 						<DialogContent>
 							<DialogHeader>
-								<DialogTitle>Are you absolutely sure?</DialogTitle>
+								<DialogTitle>New order in your area</DialogTitle>
 								<DialogDescription>
-									This action cannot be undone. This will permanently delete
-									your account and remove your data from our servers.
+									{/* process #*# Order data */}
 								</DialogDescription>
 							</DialogHeader>
+							<Button className="w-full">
+								Accept
+							</Button>
 						</DialogContent>
 					</Dialog>
 
@@ -136,7 +143,10 @@ function Phone({
 										: "You currently have no insights from our side, uBert will do better next time!"}
 								</DrawerDescription>
 							</DrawerHeader>
-							<InsightsDataShowcase />
+							<InsightsDataShowcase
+								examples={exampleOutputs}
+								index={currOrder}
+							/>
 						</DrawerContent>
 					</Drawer>
 				</div>

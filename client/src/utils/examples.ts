@@ -2,7 +2,7 @@ import type { FinishedOrder, Order } from "@/components/order-popup";
 import type { Trip } from "./sessionManagement";
 import type { Output } from "@/components/insight-showcase";
 
-interface detailTrip {
+export interface detailTrip {
     trip: Trip,
     area: string,
     money: string,
@@ -192,5 +192,8 @@ const detailsPerTrip: detailTrip[] = [
     }
 ]
 
+export function getExampleInsights(): Output[] {
+    return exampleOutputs;
+}
 
 export {trips, requests, orderTrip, exampleOutputs, detailsPerTrip};
