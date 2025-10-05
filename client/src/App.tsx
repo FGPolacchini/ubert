@@ -2,9 +2,11 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { useState } from "react";
 import { getEmptyState, type ShiftState } from "./utils/sessionManagement";
 import Phone from "./components/phone-showcase";
+import type { Insights } from "./components/insight-showcase";
 
 function App() {
 	const [sessionData, setSessionData] = useState<ShiftState>(getEmptyState());
+	const [latestInsights, setLatestInsights] = useState<Insights>();
 
 	return (
 		<ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">

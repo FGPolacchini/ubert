@@ -13,6 +13,8 @@ import {
 import { ChevronUp, Power, PowerOff } from "lucide-react";
 import TimedNudge from "./breakNudge";
 import { goOffline, goOnline, type ShiftState } from "@/utils/sessionManagement";
+import uberMapPic from "@/assets/uberMapPic.png";
+import InsightsDataShowcase from "./insight-showcase";
 
 function Phone({ sessionData }: { sessionData: ShiftState }) {
 	const [isOnline, setIsOnline] = useState(false);
@@ -20,7 +22,7 @@ function Phone({ sessionData }: { sessionData: ShiftState }) {
 	return (
 		<Card className="max-h-3xl h-full max-w-xl w-full">
 			<CardContent className="px-2.5 pt-4 pb-8 h-full">
-				<div className="flex flex-col h-full relative overflow-hidden rounded-md">
+				<div className="flex flex-col h-full relative overflow-hidden">
 					{isOnline && (
 						<TimedNudge // params are in seconds
 							durationInit={4}
@@ -31,12 +33,14 @@ function Phone({ sessionData }: { sessionData: ShiftState }) {
 						/>
 					)}
 
-					<div className="h-full">
+					<div className="relative h-full bg-cover bg-center  overflow-hidden" 
+						style={{ backgroundImage: `url(${uberMapPic})` }}
+					>
 						{!isOnline ? (
 							<Button
-								variant="outline"
+								variant="secondary"
 								size="icon"
-								className="rounded-full"
+								className="rounded-full absolute top-2 left-2"
 								onClick={() => {
 									goOnline(sessionData);
 									setIsOnline(true);
@@ -46,9 +50,9 @@ function Phone({ sessionData }: { sessionData: ShiftState }) {
 							</Button>
 						) : (
 							<Button
-								variant="outline"
+								variant="secondary"
 								size="icon"
-								className="rounded-full"
+								className="rounded-full m-2"
 								onClick={() => {
 									goOffline(sessionData);
 									setIsOnline(false);
@@ -61,7 +65,7 @@ function Phone({ sessionData }: { sessionData: ShiftState }) {
 
 					<Drawer>
 						<DrawerTrigger>
-							<Button className="w-full justify-between rounded-none rounded-b-md">
+							<Button className="w-full justify-between rounded-none rounded-b-md" variant="outline">
 								<ChevronUp className="w-8 h-8" />
 								<h4 className="scroll-m-20 text-lg font-semibold tracking-tight">
 									{isOnline ? "You're online" : "You're offline"}
@@ -82,12 +86,9 @@ function Phone({ sessionData }: { sessionData: ShiftState }) {
 									{/* {#*#} */}
 								</DrawerDescription>
 							</DrawerHeader>
-							{/* <InsightsDataShowcase /> */}
+							<InsightsDataShowcase />
 							<DrawerFooter>
 								<Button>Submit</Button>
-								{/* <DrawerClose>
-									<Button variant="outline">Cancel</Button>
-								</DrawerClose> */}
 							</DrawerFooter>
 						</DrawerContent>
 					</Drawer>
