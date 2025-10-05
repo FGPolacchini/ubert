@@ -1,5 +1,6 @@
 import type { FinishedOrder, Order } from "@/components/order-popup";
 import type { Trip } from "./sessionManagement";
+import type { Output } from "@/components/insight-showcase";
 
 const trips: Trip[] = [
     {
@@ -118,4 +119,29 @@ const orderTrip: FinishedOrder[] = [
     },
 ];
 
-export {trips, requests, orderTrip};
+const exampleOutputs: Output[] = [
+    // logging in / refreshing at 7 am on a rainy Monday day
+    {
+        customer_demand: "On Mondays most customer demand will be between 7:30 am and 9 am.";
+	    weather: "It will rain the entire day today, with a thunderstorm at 2 pm.";
+	    traffic: "Expect a traffic jam near Rotterdam Centrum between 9 am and 11:30 am.";
+	    incentives: "This week you will get 10% extra earnings driving in Rotterdam Feijenoord!";
+    }
+    // REFRESHING at 9 am on a rainy Monday day (same as the one above)
+    {
+        customer_demand: "The customer demand will decrease after 9:30 am.";
+	    weather: "It will rain the entire day today, but the thunderstorm will only be at 5 pm.";
+	    traffic: "Expect some light traffic from now until 11:30 am near Rotterdam Centrum.";
+	    incentives: "This week you will get 10% extra earnings driving in Rotterdam Feijenoord!";
+    }
+    // logging in / refreshing at 6 pm on a cloudy Friday day
+    {
+        customer_demand: "On Fridays expect more tips from 9 pm to 10:30 pm.";
+	    weather: "There should be no rain, just a bit of cloudiness and gusts of wind around 8 pm.";
+	    traffic: "Traffic in your area should get lighter after 7 pm";
+	    incentives: "This weekend you will get 15% extra earnings driving in Rotterdam Zuid!";
+    }
+]
+
+
+export {trips, requests, orderTrip, exampleOutputs};
