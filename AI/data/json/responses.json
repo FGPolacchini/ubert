@@ -143,5 +143,81 @@
     "instruction": "Which areas consistently perform above the dataset mean of $3.46?",
     "input": "Area earnings as above",
     "output": "Areas above the mean: 890055cc72cfc60, 89009d788fa8290, 8900de9ec6aaa4, 890104e4c2f272f, 8901077c75fa647."
+  },
+  {
+    "instruction": "Should I continue driving if it is raining lightly?",
+    "input": "Weather: light rain. Vehicle: car. Visibility: good.",
+    "output": "You can continue driving, but reduce speed slightly and maintain a safe distance from other vehicles."
+  },
+  {
+    "instruction": "Is it safe to drive in heavy rain?",
+    "input": "Weather: heavy rain. Vehicle: car. Visibility: low.",
+    "output": "Exercise extreme caution. Reduce speed, turn on headlights, and consider pausing driving if roads are flooded or visibility is poor."
+  },
+  {
+    "instruction": "Can I use my bike in light rain?",
+    "input": "Weather: light rain. Vehicle: bike.",
+    "output": "It's not ideal. If you must ride, go slowly, wear reflective gear, and watch out for slippery surfaces."
+  },
+  {
+    "instruction": "Should I go out on my bike in snow?",
+    "input": "Weather: snow. Vehicle: bike.",
+    "output": "It is unsafe to ride a bike in snow. Consider postponing your ride or using a car instead."
+  },
+  {
+    "instruction": "Is it okay to drive a car in snowy conditions?",
+    "input": "Weather: snow. Vehicle: car. Road conditions: untreated.",
+    "output": "Drive carefully if necessary, reduce speed, increase following distance, and avoid sudden braking. If possible, delay your trip until roads are cleared."
+  },
+  {
+    "instruction": "Should I ride my scooter during a thunderstorm?",
+    "input": "Weather: thunderstorm. Vehicle: scooter.",
+    "output": "Do not ride a scooter during a thunderstorm. Wait until the weather improves to avoid accidents and lightning risk."
+  },
+  {
+    "instruction": "Is it safe to drive during foggy conditions?",
+    "input": "Weather: fog. Vehicle: car. Visibility: low.",
+    "output": "Use low-beam headlights, reduce speed, and increase following distance. If visibility is extremely poor, consider pausing your drive."
+  },
+  {
+    "instruction": "Should I take breaks if it is hot outside?",
+    "input": "Weather: hot, 35°C. Vehicle: car. Duration: long drive.",
+    "output": "Stay hydrated, take breaks every hour, and ensure your air conditioning works to avoid heat fatigue."
+  },
+  {
+    "instruction": "Is it okay to ride a bike on icy roads?",
+    "input": "Weather: icy roads. Vehicle: bike.",
+    "output": "Do not ride a bike on icy roads. It's extremely dangerous. Wait until conditions improve."
+  },
+  {
+    "instruction": "Should I drive slowly when it rains at night?",
+    "input": "Weather: rain at night. Vehicle: car. Visibility: moderate.",
+    "output": "Yes, reduce speed, use headlights, and be extra cautious as wet roads are more slippery at night."
+  },
+  {
+    "instruction": "Advice for driving in heavy snow with a car equipped with winter tires",
+    "input": "Weather: heavy snow. Vehicle: car with winter tires. Road conditions: snowy.",
+    "output": "Winter tires help, but still drive slowly, maintain extra distance, and avoid sudden maneuvers. If possible, delay non-essential trips."
+  },
+  {
+    "instruction": "Can I bike if it's windy with gusts?",
+    "input": "Weather: strong wind. Vehicle: bike.",
+    "output": "Strong gusts make biking risky. Avoid riding if possible, especially near high structures or open areas."
+  },
+  {
+    "instruction": "Should I take a break when it's raining heavily on a long trip?",
+    "input": "Weather: heavy rain. Vehicle: car. Trip duration: 3 hours.",
+    "output": "Yes, take a short break to stay alert. Heavy rain can be tiring and reduces visibility."
+  },
+  {
+    "instruction": "Is it safe to drive a scooter in light snow?",
+    "input": "Weather: light snow. Vehicle: scooter.",
+    "output": "It's unsafe to drive a scooter even in light snow. Wait until roads are clear or use a car."
+  },
+  {
+    "instruction": "How should I drive if there is frost on the road?",
+    "input": "Weather: frost. Vehicle: car. Temperature: -2°C.",
+    "output": "Drive slowly, avoid sharp turns, and increase following distance. Frost can make roads slippery even if they appear clear."
   }
 ]
+

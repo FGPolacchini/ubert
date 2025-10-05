@@ -8,6 +8,7 @@ from transformers import (
 )
 from peft import PeftModel
 
+# --- Configuration ---
 BASE_MODEL = "meta-llama/Llama-2-7b-chat-hf"
 MODEL = "./lora_uber_driver"
 
@@ -18,6 +19,7 @@ bnb_config = BitsAndBytesConfig(
     bnb_4bit_quant_type="nf4"
 )
 
+# --- Load model and tokenizer once ---
 print("Loading tokenizer...")
 tokenizer = AutoTokenizer.from_pretrained(MODEL, use_fast=True)
 
@@ -33,7 +35,7 @@ print("Applying LoRA adapters...")
 model = PeftModel.from_pretrained(base_model, MODEL)
 model.eval()
 
-# Optional torch.compile for speed
+# Optional: torch.compile for extra speed (only forward)
 try:
     if torch.__version__.startswith("2"):
         print("Attempting torch.compile for extra speed (PyTorch 2.x)...")
@@ -41,6 +43,7 @@ try:
 except Exception as e:
     print(f"torch.compile skipped: {e}")
 
+# --- Create generation pipeline ---
 chat_pipe = pipeline(
     "text-generation",
     model=model,
@@ -49,10 +52,13 @@ chat_pipe = pipeline(
     return_full_text=False
 )
 
+# --- Chat Memory ---
 history = []
 MAX_EXCHANGES = 5
 
+
 def build_prompt(hist, user_text):
+    """Builds the prompt using chat history."""
     system = "You are a helpful assistant specialized for Uber drivers. Give concise practical tips."
     chat_lines = [f"System: {system}"]
     for h in hist:
@@ -62,13 +68,18 @@ def build_prompt(hist, user_text):
     chat_lines.append("Assistant:")
     return "\n".join(chat_lines)
 
-print("💬 LLaMA-2 chat with LoRA fine-tuning ready. Type 'exit' to quit.\n")
-while True:
-    user = input("You: ").strip()
-    if user.lower() in ("exit", "quit"):
-        print("Bye!")
-        break
-    prompt = build_prompt(history, user)
+
+def chat_with_model(user_input: str) -> str:
+    """
+    Generate a model response from user input.
+    Keeps short-term history and returns only text.
+    """
+    global history
+
+    if not user_input.strip():
+        return "Please provide a valid input."
+
+    prompt = build_prompt(history, user_input)
 
     gen = chat_pipe(
         prompt,
@@ -83,8 +94,9 @@ while True:
 
     reply = gen[0]["generated_text"].strip()
 
-    print(f"AI: {reply}\n")
-    history.append({"user": user, "assistant": reply})
-
+    # Update conversation history
+    history.append({"user": user_input, "assistant": reply})
     if len(history) > MAX_EXCHANGES:
         history = history[-MAX_EXCHANGES:]
+
+    return reply
