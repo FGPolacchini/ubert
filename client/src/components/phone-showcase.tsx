@@ -10,10 +10,11 @@ import {
 	DrawerTitle,
 	DrawerTrigger,
 } from "@/components/ui/drawer";
-import { ChevronUp, Power } from "lucide-react";
+import { ChevronUp, Power, PowerOff } from "lucide-react";
 import TimedNudge from "./breakNudge";
+import { goOffline, goOnline, type ShiftState } from "@/utils/sessionManagement";
 
-function Phone() {
+function Phone({ sessionData }: { sessionData: ShiftState }) {
 	const [isOnline, setIsOnline] = useState(false);
 
 	return (
@@ -31,14 +32,31 @@ function Phone() {
 					)}
 
 					<div className="h-full">
-						<Button
-							variant="outline"
-							size="icon"
-							className="rounded-full"
-							onClick={() => setIsOnline(!isOnline)}
-						>
-							<Power className="w-4 h-4" />
-						</Button>
+						{!isOnline ? (
+							<Button
+								variant="outline"
+								size="icon"
+								className="rounded-full"
+								onClick={() => {
+									goOnline(sessionData);
+									setIsOnline(true);
+								}}
+							>
+								<Power className="w-4 h-4" />
+							</Button>
+						) : (
+							<Button
+								variant="outline"
+								size="icon"
+								className="rounded-full"
+								onClick={() => {
+									goOffline(sessionData);
+									setIsOnline(false);
+								}}
+							>
+								<PowerOff className="w-4 h-4" />
+							</Button>
+						)}
 					</div>
 
 					<Drawer>
