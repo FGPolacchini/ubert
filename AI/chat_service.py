@@ -1,4 +1,3 @@
-import os
 import torch
 from transformers import (
     AutoModelForCausalLM,
@@ -8,7 +7,7 @@ from transformers import (
 )
 from peft import PeftModel
 
-# --- Configuration ---
+# === Configuration ===
 BASE_MODEL = "meta-llama/Llama-2-7b-chat-hf"
 MODEL = "./lora_uber_driver"
 
@@ -19,11 +18,12 @@ bnb_config = BitsAndBytesConfig(
     bnb_4bit_quant_type="nf4"
 )
 
-# --- Load model and tokenizer once ---
-print("Loading tokenizer...")
+print("🔧 Loading model and tokenizer (this may take a minute)...")
+
+# === Load tokenizer ===
 tokenizer = AutoTokenizer.from_pretrained(MODEL, use_fast=True)
 
-print("Loading base model (this may take a minute)...")
+# === Load base model ===
 base_model = AutoModelForCausalLM.from_pretrained(
     BASE_MODEL,
     quantization_config=bnb_config,
@@ -31,19 +31,19 @@ base_model = AutoModelForCausalLM.from_pretrained(
     trust_remote_code=True
 )
 
-print("Applying LoRA adapters...")
+# === Apply LoRA adapters ===
 model = PeftModel.from_pretrained(base_model, MODEL)
 model.eval()
 
-# Optional: torch.compile for extra speed (only forward)
+# === Optional torch.compile for PyTorch 2.x ===
 try:
     if torch.__version__.startswith("2"):
-        print("Attempting torch.compile for extra speed (PyTorch 2.x)...")
+        print("⚡ Compiling model forward for extra speed...")
         model.forward = torch.compile(model.forward)
 except Exception as e:
     print(f"torch.compile skipped: {e}")
 
-# --- Create generation pipeline ---
+# === Create text generation pipeline ===
 chat_pipe = pipeline(
     "text-generation",
     model=model,
@@ -52,14 +52,19 @@ chat_pipe = pipeline(
     return_full_text=False
 )
 
-# --- Chat Memory ---
+print("✅ Model is loaded and ready for chat.\n")
+
+# === Chat memory ===
 history = []
 MAX_EXCHANGES = 5
 
 
 def build_prompt(hist, user_text):
-    """Builds the prompt using chat history."""
-    system = "You are a helpful assistant specialized for Uber drivers. Give concise practical tips."
+    """Builds a prompt that includes short conversation memory."""
+    system = (
+        "You are a helpful assistant specialized for Uber drivers. "
+        "Give concise, practical, friendly tips based on the user's question."
+    )
     chat_lines = [f"System: {system}"]
     for h in hist:
         chat_lines.append(f"Human: {h['user']}")
@@ -71,8 +76,8 @@ def build_prompt(hist, user_text):
 
 def chat_with_model(user_input: str) -> str:
     """
-    Generate a model response from user input.
-    Keeps short-term history and returns only text.
+    Generates a response using the LoRA-tuned LLaMA model.
+    Keeps context from the last few exchanges.
     """
     global history
 
@@ -94,9 +99,20 @@ def chat_with_model(user_input: str) -> str:
 
     reply = gen[0]["generated_text"].strip()
 
-    # Update conversation history
+    # Store in short-term memory
     history.append({"user": user_input, "assistant": reply})
     if len(history) > MAX_EXCHANGES:
         history = history[-MAX_EXCHANGES:]
 
     return reply
+
+if __name__ == "__main__":
+    print("💬 Chat service is running. Type a message or 'exit' to stop.\n")
+    while True:
+        user_input = input("You: ").strip()
+        if user_input.lower() in ("exit", "quit"):
+            print("Bye!")
+            break
+        response = chat_with_model(user_input)
+        print(f"AI: {response}\n")
+
