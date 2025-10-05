@@ -13,12 +13,21 @@ export interface SessionState {
 export interface Trip {
 	tripId: string;
 	driverId: string;
-	riderId: string;
+	customerId: string;
 	dist: number;
 	duration: number; //saved in minutes
 	// mult: number;
 	net_earnings: number;
 	tips: number;
+}
+
+export interface Request {
+	pickupLat: number,
+	pickupLon: number,
+	dropOffLat: number,
+	dropOffLon: number,
+	fareEst: number,
+	customerId: string
 }
 
 /**

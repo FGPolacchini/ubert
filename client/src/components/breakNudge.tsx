@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 
+//used ChatGPT to get the idea for the Timer and handling logic
 export default function Timer({
 	durationInit,
 	durationLong,
