@@ -5,18 +5,35 @@ import {
 	Drawer,
 	DrawerContent,
 	DrawerDescription,
-	DrawerFooter,
 	DrawerHeader,
 	DrawerTitle,
 	DrawerTrigger,
 } from "@/components/ui/drawer";
-import { ChevronUp, Power, PowerOff } from "lucide-react";
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from "@/components/ui/dialog";
+import { ChevronUp, PlusCircle, Power, PowerOff } from "lucide-react";
 import TimedNudge from "./breakNudge";
-import { goOffline, goOnline, type ShiftState } from "@/utils/sessionManagement";
+import {
+	goOffline,
+	goOnline,
+	type ShiftState,
+} from "@/utils/sessionManagement";
 import uberMapPic from "@/assets/uberMapPic.png";
-import InsightsDataShowcase from "./insight-showcase";
+import InsightsDataShowcase, { type Insights } from "./insight-showcase";
 
-function Phone({ sessionData }: { sessionData: ShiftState }) {
+function Phone({
+	sessionData,
+	latestInsights,
+}: {
+	sessionData: ShiftState;
+	latestInsights: Insights | null;
+}) {
 	const [isOnline, setIsOnline] = useState(false);
 
 	return (
@@ -33,39 +50,67 @@ function Phone({ sessionData }: { sessionData: ShiftState }) {
 						/>
 					)}
 
-					<div className="relative h-full bg-cover bg-center  overflow-hidden" 
-						style={{ backgroundImage: `url(${uberMapPic})` }}
-					>
-						{!isOnline ? (
-							<Button
-								variant="secondary"
-								size="icon"
-								className="rounded-full absolute top-2 left-2"
-								onClick={() => {
-									goOnline(sessionData);
-									setIsOnline(true);
-								}}
-							>
-								<Power className="w-4 h-4" />
-							</Button>
-						) : (
-							<Button
-								variant="secondary"
-								size="icon"
-								className="rounded-full m-2"
-								onClick={() => {
-									goOffline(sessionData);
-									setIsOnline(false);
-								}}
-							>
-								<PowerOff className="w-4 h-4" />
-							</Button>
-						)}
-					</div>
+					<Dialog>
+						{/* this is the map and the on/off switch */}
+						<div
+							className="relative h-full bg-cover bg-center  overflow-hidden"
+							style={{ backgroundImage: `url(${uberMapPic})` }}
+						>
+							{!isOnline ? (
+								<Button
+									variant="secondary"
+									size="icon"
+									className="rounded-full absolute top-2 left-2"
+									onClick={() => {
+										goOnline(sessionData);
+										setIsOnline(true);
+									}}
+								>
+									<Power className="w-4 h-4" />
+								</Button>
+							) : (
+								<>
+									<Button
+										variant="secondary"
+										size="icon"
+										className="rounded-full absolute top-2 left-2"
+										onClick={() => {
+											goOffline(sessionData);
+											setIsOnline(false);
+										}}
+									>
+										<PowerOff className="w-4 h-4" />
+									</Button>
+
+									<DialogTrigger>
+										<Button
+											variant="secondary"
+											size="icon"
+											className="rounded-full absolute top-2 right-2"
+										>
+											<PlusCircle className="w-4 h-4" />
+										</Button>
+									</DialogTrigger>
+								</>
+							)}
+						</div>
+						<DialogContent>
+							<DialogHeader>
+								<DialogTitle>Are you absolutely sure?</DialogTitle>
+								<DialogDescription>
+									This action cannot be undone. This will permanently delete
+									your account and remove your data from our servers.
+								</DialogDescription>
+							</DialogHeader>
+						</DialogContent>
+					</Dialog>
 
 					<Drawer>
 						<DrawerTrigger>
-							<Button className="w-full justify-between rounded-none rounded-b-md" variant="outline">
+							<Button
+								className="w-full justify-between rounded-none rounded-b-md"
+								variant="outline"
+							>
 								<ChevronUp className="w-8 h-8" />
 								<h4 className="scroll-m-20 text-lg font-semibold tracking-tight">
 									{isOnline ? "You're online" : "You're offline"}
@@ -82,14 +127,16 @@ function Phone({ sessionData }: { sessionData: ShiftState }) {
 							<DrawerHeader>
 								<DrawerTitle>Insights</DrawerTitle>
 								<DrawerDescription>
-									This information was last updated on
-									{/* {#*#} */}
+									{latestInsights !== null
+										? "This information was last updated on " +
+										  new Intl.DateTimeFormat("en-GB", {
+												dateStyle: "medium",
+												timeStyle: "short",
+										  }).format(latestInsights.generatedOn)
+										: "You currently have no insights from our side, uBert will do better next time!"}
 								</DrawerDescription>
 							</DrawerHeader>
 							<InsightsDataShowcase />
-							<DrawerFooter>
-								<Button>Submit</Button>
-							</DrawerFooter>
 						</DrawerContent>
 					</Drawer>
 				</div>
