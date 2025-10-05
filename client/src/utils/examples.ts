@@ -2,8 +2,8 @@ import type { FinishedOrder, Order } from "@/components/order-popup";
 import type { Trip } from "./sessionManagement";
 import type { Output } from "@/components/insight-showcase";
 
-interface detailTrip {
-    trip: Trip,
+export interface detailTrip {
+    order: Order,
     area: string,
     money: string,
 }
@@ -150,47 +150,57 @@ const exampleOutputs: Output[] = [
 ];
 
 const detailsPerTrip: detailTrip[] = [
-    {
-        trip: {
-            tripId: "1",
-            driverId: "ah26",
-            customerId: "bh23",
-            dist: 20.5,
-            duration: 15,
-            net_earnings: 20,
-            tips: 2.5
-        },
-        area: "Area has low user activity, not recommended to accept.",
-        money: "Low user demand, more costly because of high chance of a wasted trip back.",
+	{
+		order: {
+			pickupLat: 51.99978699587479,
+			pickupLon: 4.377662012735309,
+			dropOffLat: 52.10077130189961,
+			dropOffLon: 4.264082103493096,
+			fareEst: 20,
+			customerId: "bh23",
+		},
+		area: "Area has low user activity, not recommended to accept.",
+		money:
+			"Low user demand, more costly because of high chance of a wasted trip back.",
+	},
+	{
+		order: {
+			pickupLat: 51.99978699587479,
+			pickupLon: 4.377662012735309,
+			dropOffLat: 52.10077130189961,
+			dropOffLon: 4.264082103493096,
+			fareEst: 20,
+			customerId: "bh23",
+		},
+		area: "Area has medium user activity, accepting is up to you.",
+		money:
+			"Medium user demand, equally probable that you will or won't waste a trip back.",
+	},
+	{
+		order: {
+			pickupLat: 51.99941756742183,
+			pickupLon: 4.375813685546373,
+			dropOffLat: 52.02936526305035,
+			dropOffLon: 4.359501834062614,
+			fareEst: 6.32,
+			customerId: "vm91",
+		},
+		area: "Area has high user activity, accepting is highly recommended.",
+		money:
+			"High user demand, there is a high chance that you will get another trip from there.",
+	},
+];
 
-    },
-    {
-        trip: {
-            tripId: "2",
-            driverId: "bg14",
-            customerId: "kl53",
-            dist: 11.3,
-            duration: 8,
-            net_earnings: 9.15,
-            tips: 0
-        },
-        area: "Area has medium user activity, accepting is up to you.",
-        money: "Medium user demand, equally probable that you will or won't waste a trip back.",
-    },
-    {
-        trip: {
-            tripId: "3",
-            driverId: "le40",
-            customerId: "vm91",
-            dist: 6.2,
-            duration: 9,
-            net_earnings: 6.32,
-            tips: 12
-        },
-        area: "Area has high user activity, accepting is highly recommended.",
-        money: "High user demand, there is a high chance that you will get another trip from there.",
-    }
-]
+export function getExampleInsights(): Output[] {
+    return exampleOutputs;
+}
 
+export function getExampleOrders(): detailTrip[] {
+	return detailsPerTrip;
+}
+
+export function getExampleTrips(): Trip[] {
+	return trips;
+}
 
 export {trips, requests, orderTrip, exampleOutputs, detailsPerTrip};

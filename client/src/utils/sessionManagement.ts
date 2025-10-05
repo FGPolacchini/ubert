@@ -1,3 +1,5 @@
+import type { Insights } from "@/components/insight-showcase";
+
 export interface ShiftState {
 	driverId: string;
 	totalDistance: number;
@@ -41,6 +43,18 @@ export function getEmptyState(): ShiftState {
 		lastSeenOn: yesterday,
 		shiftStarted: now,
 		sessionStarted: now,
+	};
+}
+
+/**
+ * Get default clear insights object
+ * @returns New insights object
+ */
+export function getEmptyInsights(): Insights {
+	const now = new Date();
+
+	return {
+		generatedOn: now,
 	};
 }
 
@@ -110,7 +124,7 @@ export function updateSessionState(
  * @param currDate the date came online again
  * @returns true if driver was on a break, false if it was a full shift change
  */
-export function checkIfBreak(lastDate: Date, currDate: Date): boolean {
+function checkIfBreak(lastDate: Date, currDate: Date): boolean {
 	if (
 		lastDate.getFullYear() === currDate.getFullYear() &&
 		lastDate.getMonth() === currDate.getMonth() &&
@@ -139,7 +153,7 @@ export function checkIfBreak(lastDate: Date, currDate: Date): boolean {
  * @param secondDate the date to be subtracted from
  * @returns difference in hours and minutes
  */
-export function getTimeDifference(
+function getTimeDifference(
 	firstDate: Date,
 	secondDate: Date
 ): [number, number] {

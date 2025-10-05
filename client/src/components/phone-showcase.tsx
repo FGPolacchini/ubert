@@ -5,19 +5,46 @@ import {
 	Drawer,
 	DrawerContent,
 	DrawerDescription,
-	DrawerFooter,
 	DrawerHeader,
 	DrawerTitle,
 	DrawerTrigger,
 } from "@/components/ui/drawer";
-import { ChevronUp, Power, PowerOff } from "lucide-react";
+import {
+	Dialog,
+	DialogClose,
+	DialogContent,
+	DialogDescription,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from "@/components/ui/dialog";
+import { ChevronUp, PlusCircle, Power, PowerOff } from "lucide-react";
 import TimedNudge from "./breakNudge";
-import { goOffline, goOnline, type ShiftState } from "@/utils/sessionManagement";
+import {
+	goOffline,
+	goOnline,
+	updateSessionState,
+	type ShiftState,
+} from "@/utils/sessionManagement";
 import uberMapPic from "@/assets/uberMapPic.png";
-import InsightsDataShowcase from "./insight-showcase";
+import InsightsDataShowcase, { type Insights } from "./insight-showcase";
+import { getExampleInsights, getExampleOrders, getExampleTrips } from "@/utils/examples";
+import { TypographyP } from "./ui/typographyP";
 
-function Phone({ sessionData }: { sessionData: ShiftState }) {
+function Phone({
+	sessionData,
+	latestInsights,
+}: {
+	sessionData: ShiftState;
+	latestInsights: Insights | null;
+}) {
 	const [isOnline, setIsOnline] = useState(false);
+	const [isWorking, setIsWorking] = useState(false);
+	const [currOrder, setCurrOrder] = useState(-1);
+
+	const exampleOutputs = getExampleInsights();
+	const exampleOrders = getExampleOrders();
+	const exampleTrips = getExampleTrips();
 
 	return (
 		<Card className="max-h-3xl h-full max-w-xl w-full">
@@ -25,7 +52,7 @@ function Phone({ sessionData }: { sessionData: ShiftState }) {
 				<div className="flex flex-col h-full relative overflow-hidden">
 					{isOnline && (
 						<TimedNudge // params are in seconds
-							durationInit={4}
+							durationInit={60}
 							durationLong={4}
 							durationShort={2}
 							maxTimeElapsed={10}
@@ -33,39 +60,107 @@ function Phone({ sessionData }: { sessionData: ShiftState }) {
 						/>
 					)}
 
-					<div className="relative h-full bg-cover bg-center  overflow-hidden" 
-						style={{ backgroundImage: `url(${uberMapPic})` }}
-					>
-						{!isOnline ? (
-							<Button
-								variant="secondary"
-								size="icon"
-								className="rounded-full absolute top-2 left-2"
-								onClick={() => {
-									goOnline(sessionData);
-									setIsOnline(true);
-								}}
-							>
-								<Power className="w-4 h-4" />
-							</Button>
-						) : (
-							<Button
-								variant="secondary"
-								size="icon"
-								className="rounded-full m-2"
-								onClick={() => {
-									goOffline(sessionData);
-									setIsOnline(false);
-								}}
-							>
-								<PowerOff className="w-4 h-4" />
-							</Button>
-						)}
-					</div>
+					<Dialog>
+						{/* this is the map and the on/off switch */}
+						<div
+							className="relative h-full bg-cover bg-center  overflow-hidden"
+							style={{ backgroundImage: `url(${uberMapPic})` }}
+						>
+							{!isOnline ? (
+								<Button
+									variant="secondary"
+									size="icon"
+									className="rounded-full absolute top-2 left-2"
+									onClick={() => {
+										goOnline(sessionData);
+										setIsOnline(true);
+									}}
+								>
+									<Power className="w-4 h-4" />
+								</Button>
+							) : (
+								<>
+									<Button
+										variant="secondary"
+										size="icon"
+										className="rounded-full absolute top-2 left-2"
+										onClick={() => {
+											goOffline(sessionData);
+											setIsOnline(false);
+										}}
+									>
+										<PowerOff className="w-4 h-4" />
+									</Button>
+
+									<DialogTrigger>
+										<Button
+											variant="secondary"
+											size="icon"
+											className="rounded-full absolute top-2 right-2"
+											onClick={() => {
+												setCurrOrder((prev) => (prev + 1) % 3);
+											}}
+										>
+											<PlusCircle className="w-4 h-4" />
+										</Button>
+									</DialogTrigger>
+								</>
+							)}
+						</div>
+						<DialogContent>
+							<DialogHeader>
+								<DialogTitle>New order in your area</DialogTitle>
+								<DialogDescription>
+									{currOrder >= 0 && <div className="space-y-2 mt-2">
+										<TypographyP
+											text={`Pickup: ${exampleOrders[currOrder].order.pickupLat}, ${exampleOrders[currOrder].order.pickupLon}`}
+										/>
+										<TypographyP
+											text={`Drop-off: ${exampleOrders[currOrder].order.dropOffLat}, ${exampleOrders[currOrder].order.dropOffLon}`}
+										/>
+										<TypographyP
+											text={`Estimated Fare: €${exampleOrders[currOrder].order.fareEst}`}
+										/>
+										<TypographyP
+											text={`Customer ID: ${exampleOrders[currOrder].order.customerId}`}
+										/>
+										<TypographyP text={exampleOrders[currOrder].area} />
+										<TypographyP text={exampleOrders[currOrder].money} />
+									</div>}
+								</DialogDescription>
+							</DialogHeader>
+							<DialogClose asChild>
+								<Button
+									className="w-full bg-green-400 hover:bg-green-500"
+									variant="secondary"
+									onClick={() => {
+										setIsWorking(true);
+									}}
+								>
+									Accept
+								</Button>
+							</DialogClose>
+						</DialogContent>
+					</Dialog>
+
+					{isWorking && (
+						<Button
+							className="rounded-none w-full bg-green-400 hover:bg-green-500"
+							onClick={() => {
+								setIsWorking(false);
+								updateSessionState(sessionData, exampleTrips[currOrder]);
+							}}
+						>
+							End current Trip
+						</Button>
+					)}
 
 					<Drawer>
 						<DrawerTrigger>
-							<Button className="w-full justify-between rounded-none rounded-b-md" variant="outline">
+							<Button
+								className="w-full justify-between rounded-none rounded-b-md"
+								variant="outline"
+							>
 								<ChevronUp className="w-8 h-8" />
 								<h4 className="scroll-m-20 text-lg font-semibold tracking-tight">
 									{isOnline ? "You're online" : "You're offline"}
@@ -82,14 +177,19 @@ function Phone({ sessionData }: { sessionData: ShiftState }) {
 							<DrawerHeader>
 								<DrawerTitle>Insights</DrawerTitle>
 								<DrawerDescription>
-									This information was last updated on
-									{/* {#*#} */}
+									{latestInsights !== null
+										? "This information was last updated on " +
+										  new Intl.DateTimeFormat("en-GB", {
+												dateStyle: "medium",
+												timeStyle: "short",
+										  }).format(latestInsights.generatedOn)
+										: "You currently have no insights from our side, uBert will do better next time!"}
 								</DrawerDescription>
 							</DrawerHeader>
-							<InsightsDataShowcase />
-							<DrawerFooter>
-								<Button>Submit</Button>
-							</DrawerFooter>
+							<InsightsDataShowcase
+								examples={exampleOutputs}
+								index={currOrder}
+							/>
 						</DrawerContent>
 					</Drawer>
 				</div>
