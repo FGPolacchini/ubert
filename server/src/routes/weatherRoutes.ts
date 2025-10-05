@@ -3,9 +3,12 @@ import { fetchWeatherHourly, fetchWeatherNow } from "../weather/weatherAPI";
 
 const weatherRoutes = Router();
 
-// I expect to receive a latitude and a longitude in the request body
-// Hour has to be in 24h format
-
+/* Get request in order to receive weather information in the form of a json file
+   This weather information is for the current weather
+   I expect to receive a latitude and a longitude in the request body in order to track the location
+   Hour has to be in 24h format
+   Chat gpt was used here to solve a bug
+ */
 weatherRoutes.get("/info/:latitude/:longitude", (req, res) => {
 	try {
 		const latitude = req.params.latitude;
@@ -27,6 +30,12 @@ weatherRoutes.get("/info/:latitude/:longitude", (req, res) => {
 	}
 });
 
+/* Get request in order to receive weather information in the form of a json file
+   This weather information is for the weather at hour "hour" and day "day - 1" ex: day = 1 today
+   I expect to receive a latitude, a longitude, an hour and a day in the request body in order to track the location and choose the time
+   of the information
+   Hour has to be in 24h format
+*/
 weatherRoutes.get("/info/hourly/:latitude/:longitude/:hour/:day", (req, res) => {
 	try {
 		const latitude = req.params.latitude;

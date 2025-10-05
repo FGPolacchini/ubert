@@ -1,3 +1,5 @@
+//Interface for 
+
 export interface Weather {
 	temperature: number;
 	name: string;
@@ -58,6 +60,13 @@ export interface WeatherAPIResponseHourly {
 
 const base_url = "http://api.weatherapi.com/v1";
 
+/*
+	Makes a call to a weather API that returns a json. This json file is parsed into a promise made out of an object created using the
+	Weather interface.
+	The latitude and longitude parameters are used to know for which location we should receive weather data
+	The key is used to access the api
+	Chat GPT was used here in order to know how to use fetch and for the idea of using interfaces to give type to the json data
+*/
 export async function fetchWeatherNow(
 	latitude: string,
 	longitude: string,
