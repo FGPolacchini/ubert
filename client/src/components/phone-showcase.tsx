@@ -28,7 +28,8 @@ import {
 } from "@/utils/sessionManagement";
 import uberMapPic from "@/assets/uberMapPic.png";
 import InsightsDataShowcase, { type Insights } from "./insight-showcase";
-import { getExampleInsights, getExampleTrips } from "@/utils/examples";
+import { getExampleInsights, getExampleOrders, getExampleTrips } from "@/utils/examples";
+import { TypographyP } from "./ui/typographyP";
 
 function Phone({
 	sessionData,
@@ -42,6 +43,7 @@ function Phone({
 	const [currOrder, setCurrOrder] = useState(-1);
 
 	const exampleOutputs = getExampleInsights();
+	const exampleOrders = getExampleOrders();
 	const exampleTrips = getExampleTrips();
 
 	return (
@@ -50,7 +52,7 @@ function Phone({
 				<div className="flex flex-col h-full relative overflow-hidden">
 					{isOnline && (
 						<TimedNudge // params are in seconds
-							durationInit={4}
+							durationInit={60}
 							durationLong={4}
 							durationShort={2}
 							maxTimeElapsed={10}
@@ -109,7 +111,22 @@ function Phone({
 							<DialogHeader>
 								<DialogTitle>New order in your area</DialogTitle>
 								<DialogDescription>
-									{/* process #*# Order data */}
+									{currOrder >= 0 && <div className="space-y-2 mt-2">
+										<TypographyP
+											text={`Pickup: ${exampleOrders[currOrder].order.pickupLat}, ${exampleOrders[currOrder].order.pickupLon}`}
+										/>
+										<TypographyP
+											text={`Drop-off: ${exampleOrders[currOrder].order.dropOffLat}, ${exampleOrders[currOrder].order.dropOffLon}`}
+										/>
+										<TypographyP
+											text={`Estimated Fare: €${exampleOrders[currOrder].order.fareEst}`}
+										/>
+										<TypographyP
+											text={`Customer ID: ${exampleOrders[currOrder].order.customerId}`}
+										/>
+										<TypographyP text={exampleOrders[currOrder].area} />
+										<TypographyP text={exampleOrders[currOrder].money} />
+									</div>}
 								</DialogDescription>
 							</DialogHeader>
 							<DialogClose asChild>
