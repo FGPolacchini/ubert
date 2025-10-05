@@ -1,0 +1,147 @@
+[
+{"instruction": "I've been driving for 1 hour, should I take a break?", "input": "Fatigue: none. Next hour: low orders. Area earnings: below-average.", "output": "No break needed right now. Stay alert and consider a short break if fatigue increases."},
+{"instruction": "I've been driving for 1 hour, can I continue?", "input": "Fatigue: minor. Next hour: peak orders. Area earnings: high.", "output": "You can continue driving. Take a short break only if you feel tired before the peak hour."},
+{"instruction": "Should I rest after 1 hour of driving?", "input": "Fatigue: moderate. Next hour: average orders. Area earnings: average.", "output": "A short 5-10 minute break is recommended to maintain alertness."},
+{"instruction": "Should I take a break now?", "input": "Hours driven: 1. Fatigue: high. Next hour: low orders. Area earnings: below-average.", "output": "Yes, take a break immediately to prevent fatigue."},
+{"instruction": "I've been driving for 2 hours, is it okay to continue?", "input": "Fatigue: none. Next hour: peak orders. Area earnings: high.", "output": "You can continue driving. Consider a short break before the peak if you feel tired."},
+{"instruction": "Should I take a break after 2 hours?", "input": "Fatigue: minor. Next hour: low orders. Area earnings: below-average.", "output": "Yes, take a short break to stay alert, especially since earnings are low in the next hour."},
+{"instruction": "Driver has been driving 2 hours, should I rest?", "input": "Fatigue: moderate. Next hour: average orders. Area earnings: average.", "output": "Take a 5-10 minute break now to prevent fatigue and maintain efficiency."},
+{"instruction": "Can I continue driving after 2 hours?", "input": "Fatigue: high. Next hour: peak orders. Area earnings: high.", "output": "Take a short break first to refresh, then drive during the high earning peak hour."},
+{"instruction": "I've been driving 3 hours, should I take a break?", "input": "Fatigue: none. Next hour: average orders. Area earnings: average.", "output": "No immediate break needed, but stay alert and take one if fatigue develops."},
+{"instruction": "Driver has been driving 3 hours, next hour is peak, should I rest?", "input": "Fatigue: minor. Next hour: peak orders. Area earnings: high.", "output": "Take a short 5-10 minute break now so you can be alert for the peak hour and maximize earnings."},
+{"instruction": "I've been driving 3 hours, next hour low earnings, should I continue?", "input": "Fatigue: moderate. Next hour: low orders. Area earnings: below-average.", "output": "Take a break now; driving during low-earning periods with moderate fatigue is inefficient."},
+{"instruction": "Driver has been driving 4 hours, is it okay to drive the next hour?", "input": "Fatigue: minor. Next hour: peak orders. Area earnings: high.", "output": "Take a short wellness break first, then drive during the peak hour to maximize earnings."},
+{"instruction": "I've been driving 4 hours, next hour low orders, should I rest?", "input": "Fatigue: moderate. Next hour: low orders. Area earnings: average.", "output": "Yes, take a break now to refresh before continuing. Driving in low-earning hours with fatigue reduces efficiency."},
+{"instruction": "Should I take a break after 4 hours of driving?", "input": "Fatigue: high. Next hour: average orders. Area earnings: average.", "output": "Yes, take a break immediately to prevent fatigue and maintain safety."},
+{"instruction": "Driver has been driving 5 hours, next hour is peak, should I rest?", "input": "Fatigue: none. Next hour: peak orders. Area earnings: high.", "output": "Consider a short 5-10 minute break now to stay alert and drive efficiently during the peak hour."},
+{"instruction": "I've been driving 5 hours, next hour low earnings, should I continue?", "input": "Fatigue: moderate. Next hour: low orders. Area earnings: below-average.", "output": "Take a break now; driving with fatigue during low-earning periods is not efficient."},
+{"instruction": "Should I rest after driving 5 hours?", "input": "Fatigue: high. Next hour: average orders. Area earnings: average.", "output": "Yes, take a break immediately for safety and alertness."},
+{"instruction": "I've been driving 6 hours, can I continue?", "input": "Fatigue: minor. Next hour: peak orders. Area earnings: high.", "output": "Take a short break first, then continue driving to catch the peak hour efficiently."},
+{"instruction": "Driver has been driving 6 hours, next hour low earnings, should I rest?", "input": "Fatigue: moderate. Next hour: low orders. Area earnings: below-average.", "output": "Yes, take a break immediately. Driving during low-earning hours with fatigue reduces performance."},
+{"instruction": "I've been driving 6 hours, fatigue high, next hour peak orders, what should I do?", "input": "Fatigue: high. Next hour: peak orders. Area earnings: high.", "output": "Take a break now to refresh. Even though next hour is peak, safety comes first."},
+  {
+    "instruction": "Should a driver take a break after driving for 4 hours?",
+    "input": "",
+    "output": "Yes, take a break right now or after finishing your current ride to stay alert."
+  },
+  {
+    "instruction": "Should a driver take a break after 1 hour of driving?",
+    "input": "",
+    "output": "It doesn't seem necessary right now. However, if you feel fatigued, take a break. If you experience issues, call the helpline or emergency numbers."
+  },
+  {
+    "instruction": "Should a driver continue driving if the next hour historically has high earnings?",
+    "input": "Driver has been driving 3 hours. Next hour historically has high orders between 11 AM - 12 PM.",
+    "output": "If you feel alert, continue driving to take advantage of peak earnings. Otherwise, take a short 10-15 min wellness break before the next hour."
+  },
+  {
+    "instruction": "Advise a driver who has been driving 5 hours in low order volume hours (2-4 AM).",
+    "input": "Historical order data shows low orders at 2 AM, 3 AM, 4 AM.",
+    "output": "Take a wellness break now or wait until demand picks up. Driving in low-order hours may not be efficient."
+  },
+  {
+    "instruction": "Should a driver take a break after driving 6 hours during high-earning periods?",
+    "input": "Next hour is 11 AM, peak order volume (123 orders).",
+    "output": "Take a short break now if needed to stay alert, but try to time it so you can drive during the next peak hour for maximum earnings."
+  },
+  {
+    "instruction": "Combine break advice with historical area earnings.",
+    "input": "Driver has been on shift for 3 hours. Next hour has historically high orders in area 8901077c75fa647 ($7.22 per trip).",
+    "output": "If you are feeling fatigued, take a short 10-min break first, then drive to area 8901077c75fa647 to maximize earnings."
+  },
+  {
+    "instruction": "Driver has driven 2 hours, next hour has average earnings, should they take a break?",
+    "input": "",
+    "output": "No immediate break is needed. Stay alert and monitor how you feel; take a break if tired."
+  },
+  {
+    "instruction": "Driver has been driving 4 hours, next hour has below-average earnings.",
+    "input": "Historical data shows low earnings next hour in all nearby areas.",
+    "output": "Take a break now to rest. Driving during low-earning periods is less efficient."
+  },
+  {
+    "instruction": "Advise on breaks when approaching peak hours.",
+    "input": "Driver has been driving 3.5 hours. Peak hours start at 10 AM (historical order count 112).",
+    "output": "Take a short break now so you can be fresh and drive during the 10 AM peak for maximum earnings."
+  },
+  {
+    "instruction": "Should a driver drive continuously if feeling slightly tired but next hour has historically highest orders?",
+    "input": "Driver fatigue moderate. Next hour 11 AM, order count 123.",
+    "output": "Consider a short 5-10 minute break to refresh. Then drive during the peak hour to maximize earnings safely."
+  },
+  {
+    "instruction": "Driver has been driving 1 hour in low-earning area, should they take a break?",
+    "input": "Area 8900a035558cab6, average net earnings $2.35",
+    "output": "No urgent break needed, but plan a break soon. Consider moving to a higher-earning area for better efficiency."
+  },
+  {
+    "instruction": "Combine break and location strategy for a driver with 4 hours of driving.",
+    "input": "Next hour peak in area 8901077c75fa647 ($7.22 per trip).",
+    "output": "Take a short wellness break now, then drive to area 8901077c75fa647 to capture high earnings while staying alert."
+  },
+  {
+    "instruction": "Driver has been driving 5 hours, next hour moderate earnings.",
+    "input": "",
+    "output": "Take a break to prevent fatigue. Driving longer now may reduce alertness and efficiency."
+  },
+  {
+    "instruction": "Driver wants to maximize profit and avoid fatigue.",
+    "input": "Shift started at 7 AM. Historical data: 10-11 AM peak orders, area 890104e4c2f272f high earnings $4.26.",
+    "output": "Plan a short break around 9:45 AM to be fully alert for the 10-11 AM peak in area 890104e4c2f272f."
+  },
+  {
+    "instruction": "Driver has minor fatigue but next hour is historically very high earning.",
+    "input": "Next hour order count: 118, area top earning $7.22",
+    "output": "Take a brief 5-10 min break to refresh. Then drive during the high earning period to optimize profit safely."
+  },
+  {
+    "instruction": "Identify the peak hours for Uber trips based on historical order counts.",
+    "input": "Order count by hour: 0-99, 1-106, 2-89, 3-101, 4-95, 5-109, 6-102, 7-105, 8-95, 9-103, 10-112, 11-123, 12-108, 13-99, 14-111, 15-99, 16-106, 17-105, 18-118, 19-116",
+    "output": "Peak hours are 10 AM, 11 AM, 12 PM, 2 PM, and 5 PM to 7 PM."
+  },
+  {
+    "instruction": "Which hour has the highest order volume?",
+    "input": "Order counts by hour as above",
+    "output": "11 AM has the highest order volume with 123 orders."
+  },
+  {
+    "instruction": "Recommend active driving hours to maximize earnings based on order trends.",
+    "input": "Hourly order distribution as above",
+    "output": "Drive between 10 AM and 7 PM to maximize ride volume."
+  },
+  {
+    "instruction": "Identify the top earning pickup areas.",
+    "input": "Average net earnings by area: 890055cc72cfc60-$3.84, 890060d86cdf496-$2.74, 89006b0cd89bafa-$2.81, 89009d788fa8290-$3.31, 8900a035558cab6-$2.35, 8900a1e8c1d3063-$2.69, 8900d260cbb8eae-$2.93, 8900de9ec6aaa4-$3.47, 890104e4c2f272f-$4.26, 8901077c75fa647-$7.22",
+    "output": "Top earning areas are 8901077c75fa647, 890104e4c2f272f, and 8900de9ec6aaa4."
+  },
+  {
+    "instruction": "Suggest a strategy combining peak hours and high earning areas.",
+    "input": "Hourly peaks and area earnings as above",
+    "output": "Start shifts before peak hours and position in top earning areas during 10 AM to 7 PM."
+  },
+  {
+    "instruction": "Which hours have the lowest Uber demand?",
+    "input": "Hourly order counts as above",
+    "output": "Lowest demand occurs at 2 AM and 4 AM."
+  },
+  {
+    "instruction": "Is it more profitable to drive in area 8900a035558cab6 or 8901077c75fa647?",
+    "input": "Average net earnings as above",
+    "output": "Driving in area 8901077c75fa647 is more profitable ($7.22 per trip) than 8900a035558cab6 ($2.35 per trip)."
+  },
+  {
+    "instruction": "Estimate the best time to start a driving shift for maximum earnings.",
+    "input": "Order count trends and high-earning areas as above",
+    "output": "Start around 9:30 AM to catch the 10-11 AM peak in top earning areas."
+  },
+  {
+    "instruction": "Identify the mid-day hours with high order counts.",
+    "input": "Hourly order counts as above",
+    "output": "10 AM, 11 AM, 12 PM, and 2 PM are mid-day hours with high order counts."
+  },
+  {
+    "instruction": "Which areas consistently perform above the dataset mean of $3.46?",
+    "input": "Area earnings as above",
+    "output": "Areas above the mean: 890055cc72cfc60, 89009d788fa8290, 8900de9ec6aaa4, 890104e4c2f272f, 8901077c75fa647."
+  }
+]
