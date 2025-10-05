@@ -1,25 +1,33 @@
 import { useState, useEffect } from "react";
+import {
+	Card,
+	CardDescription,
+	CardFooter,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
+import { Button } from "./ui/button";
 
-//used ChatGPT to get the idea for the Timer and handling logic
-export default function Timer({
+export default function TimedNudge({
 	durationInit,
 	durationLong,
 	durationShort,
 	maxTimeElapsed,
+	setOnline,
 }: {
 	durationInit: number;
 	durationLong: number;
 	durationShort: number;
 	maxTimeElapsed: number;
+	setOnline: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
+	const [isNudgeVisible, setIsNudgeVisible] = useState(false);
 	const [timeLeft, setTimeLeft] = useState(durationInit);
-	const [showPopup, setShowPopup] = useState(false);
 	const [totalElapsed, setTotalElapsed] = useState(0);
-	const [isLocked, setIsLocked] = useState(false);
 
 	useEffect(() => {
 		if (timeLeft <= 0) {
-			setShowPopup(true);
+			setIsNudgeVisible(true);
 			return;
 		}
 
@@ -31,136 +39,53 @@ export default function Timer({
 		return () => clearInterval(timer);
 	}, [timeLeft]);
 
-	useEffect(() => {
-		if (totalElapsed >= maxTimeElapsed) {
-			setIsLocked(true);
-			setShowPopup(false);
-		}
-	}, [totalElapsed, maxTimeElapsed]);
-
-	const hours = Math.floor(timeLeft / 3600);
-	const minutes = Math.floor((timeLeft % 3600) / 60);
-	const seconds = Math.floor(timeLeft % 60);
-
-	const handleNewTimer = () => {
+	const handleLongTimer = () => {
 		if (totalElapsed + durationLong > maxTimeElapsed) {
-			setIsLocked(true);
-			setShowPopup(false);
+			setIsNudgeVisible(false);
 			return;
 		}
 		setTimeLeft(durationLong);
-		setShowPopup(false);
+		setIsNudgeVisible(false);
 	};
 
 	const handleShortTimer = () => {
 		if (totalElapsed + durationShort > maxTimeElapsed) {
-			setIsLocked(true);
-			setShowPopup(false);
+			setIsNudgeVisible(false);
 			return;
 		}
 		setTimeLeft(durationShort);
-		setShowPopup(false);
+		setIsNudgeVisible(false);
 	};
 
-	const handleClosePopup = () => {
-		setShowPopup(false);
+	const handleCloseNudge = () => {
+		setIsNudgeVisible(false);
+		setOnline(false);
 	};
 
 	return (
-		<div
-			style={{ textAlign: "center", fontFamily: "monospace", fontSize: "2rem" }}
-		>
-			<h2>Countdown Timer</h2>
-
-			{isLocked ? (
-				<div style={{ color: "red", fontWeight: "bold" }}>
-					⛔ Time limit reached. You cannot restart the timer.
-				</div>
-			) : (
-				<div>
-					{String(hours).padStart(2, "0")}:{String(minutes).padStart(2, "0")}:
-					{String(seconds).padStart(2, "0")}
-				</div>
-			)}
-
-			{/* Custom popup overlay */}
-			{showPopup && (
-				<div
-					style={{
-						position: "fixed",
-						top: 0,
-						left: 0,
-						width: "100%",
-						height: "100%",
-						backgroundColor: "rgba(0,0,0,0.6)",
-						display: "flex",
-						justifyContent: "center",
-						alignItems: "center",
-						zIndex: 999,
-					}}
-				>
-					<div
-						style={{
-							background: "white",
-							padding: "2rem",
-							borderRadius: "1rem",
-							boxShadow: "0 4px 10px rgba(0,0,0,0.2)",
-							textAlign: "center",
-							width: "300px",
-						}}
-					>
-						<h3>⏰ Time’s up!</h3>
-						<p>What would you like to do?</p>
-						<div
-							style={{
-								display: "flex",
-								flexDirection: "column",
-								gap: "0.5rem",
-							}}
-						>
-							<button
-								onClick={handleNewTimer}
-								style={{
-									padding: "0.5rem",
-									borderRadius: "0.5rem",
-									background: "#4CAF50",
-									color: "white",
-									border: "none",
-									cursor: "pointer",
-								}}
-							>
-								Start New Timer ({durationLong}s)
-							</button>
-							<button
-								onClick={handleShortTimer}
-								style={{
-									padding: "0.5rem",
-									borderRadius: "0.5rem",
-									background: "#2196F3",
-									color: "white",
-									border: "none",
-									cursor: "pointer",
-								}}
-							>
-								Restart Short Timer ({durationShort}s)
-							</button>
-							<button
-								onClick={handleClosePopup}
-								style={{
-									padding: "0.5rem",
-									borderRadius: "0.5rem",
-									background: "#f44336",
-									color: "white",
-									border: "none",
-									cursor: "pointer",
-								}}
-							>
-								Close Popup
-							</button>
-						</div>
-					</div>
-				</div>
-			)}
-		</div>
+		<Card className={"rounded-b-none " + (isNudgeVisible ? "flex" : "hidden")}>
+			<CardHeader>
+				<CardTitle>Consider taking a break</CardTitle>
+				<CardDescription>
+					You have been working for about {Math.round(totalElapsed / 360)} hours
+					already.
+				</CardDescription>
+			</CardHeader>
+			<CardFooter className="flex justify-end items-center gap-2">
+				{totalElapsed < maxTimeElapsed && (
+					<Button onClick={handleShortTimer} variant="secondary">
+						Remind me later
+					</Button>
+				)}
+				{totalElapsed < durationInit && (
+					<Button onClick={handleLongTimer} variant="secondary" className="bg-red-500 hover:bg-red-600">
+						Not now
+					</Button>
+				)}
+				<Button onClick={handleCloseNudge} variant="secondary" className="bg-green-700 hover:bg-green-800">
+					Break now
+				</Button>
+			</CardFooter>
+		</Card>
 	);
 }

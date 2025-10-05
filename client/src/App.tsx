@@ -1,24 +1,18 @@
 import { ThemeProvider } from "@/components/theme-provider";
-import { Card, CardDescription, CardHeader } from "./components/ui/card";
 import { useState } from "react";
-import type { SessionState } from "./utils/sessionManagement";
-import Timer from "./components/breakNudge";
+import { getEmptyState, type ShiftState } from "./utils/sessionManagement";
+import Phone from "./components/phone-showcase";
+import type { Insights } from "./components/insight-showcase";
 
 function App() {
-	const [sessionData, useSessionData] = useState<SessionState>();'-'
+	const [sessionData, setSessionData] = useState<ShiftState>(getEmptyState());
+	const [latestInsights, setLatestInsights] = useState<Insights>();
 
 	return (
 		<ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-			<Card>
-				<CardHeader>This is our app now</CardHeader>
-				<CardDescription>More text just to be sure</CardDescription>
-			</Card>
-			<Timer
-				durationInit={10}
-				durationLong={8}
-				durationShort={3}
-				maxTimeElapsed={20}
-			/>
+			<div className="flex justify-around items-center h-full w-full gap-4 py-8">
+				<Phone sessionData={sessionData} />
+			</div>
 		</ThemeProvider>
 	);
 }
