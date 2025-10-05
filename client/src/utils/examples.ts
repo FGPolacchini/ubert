@@ -196,4 +196,8 @@ export function getExampleInsights(): Output[] {
     return exampleOutputs;
 }
 
+export function getExampleTrips(): Trip[] {
+	return trips;
+}
+
 export {trips, requests, orderTrip, exampleOutputs, detailsPerTrip};

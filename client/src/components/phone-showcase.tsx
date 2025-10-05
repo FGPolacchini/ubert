@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/drawer";
 import {
 	Dialog,
+	DialogClose,
 	DialogContent,
 	DialogDescription,
 	DialogHeader,
@@ -22,11 +23,12 @@ import TimedNudge from "./breakNudge";
 import {
 	goOffline,
 	goOnline,
+	updateSessionState,
 	type ShiftState,
 } from "@/utils/sessionManagement";
 import uberMapPic from "@/assets/uberMapPic.png";
 import InsightsDataShowcase, { type Insights } from "./insight-showcase";
-import { getExampleInsights } from "@/utils/examples";
+import { getExampleInsights, getExampleTrips } from "@/utils/examples";
 
 function Phone({
 	sessionData,
@@ -36,9 +38,11 @@ function Phone({
 	latestInsights: Insights | null;
 }) {
 	const [isOnline, setIsOnline] = useState(false);
+	const [isWorking, setIsWorking] = useState(false);
 	const [currOrder, setCurrOrder] = useState(-1);
 
 	const exampleOutputs = getExampleInsights();
+	const exampleTrips = getExampleTrips();
 
 	return (
 		<Card className="max-h-3xl h-full max-w-xl w-full">
@@ -91,7 +95,9 @@ function Phone({
 											variant="secondary"
 											size="icon"
 											className="rounded-full absolute top-2 right-2"
-											onClick={() => { setCurrOrder((prev) => (prev + 1) % 3)}}
+											onClick={() => {
+												setCurrOrder((prev) => (prev + 1) % 3);
+											}}
 										>
 											<PlusCircle className="w-4 h-4" />
 										</Button>
@@ -106,11 +112,31 @@ function Phone({
 									{/* process #*# Order data */}
 								</DialogDescription>
 							</DialogHeader>
-							<Button className="w-full">
-								Accept
-							</Button>
+							<DialogClose asChild>
+								<Button
+									className="w-full bg-green-400 hover:bg-green-500"
+									variant="secondary"
+									onClick={() => {
+										setIsWorking(true);
+									}}
+								>
+									Accept
+								</Button>
+							</DialogClose>
 						</DialogContent>
 					</Dialog>
+
+					{isWorking && (
+						<Button
+							className="rounded-none w-full bg-green-400 hover:bg-green-500"
+							onClick={() => {
+								setIsWorking(false);
+								updateSessionState(sessionData, exampleTrips[currOrder]);
+							}}
+						>
+							End current Trip
+						</Button>
+					)}
 
 					<Drawer>
 						<DrawerTrigger>
